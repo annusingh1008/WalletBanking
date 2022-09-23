@@ -15,20 +15,20 @@ const Signin = () => {
 
   const userLogin = (e) => {
     e.preventDefault();
-    const user = {email, password};
+    const user = { email, password };
 
     dispatch(login(user));
   }
 
-  if(auth.authenticate){
+  if (auth.authenticate) {
     return <Redirect to={'/'} />
   }
-  
+
   return (
     <Layout>
-      <Container style={{ marginTop: "150px" }}>
+      <Container style={{ marginTop: "110px" }}>
         <Row>
-          <Col md={{ span: 7, offset: 4 }}>
+          <Col md={{ span: 6, offset: 3 }}>
             <Form onSubmit={userLogin}>
               <label>Email</label>
               <br />

@@ -11,34 +11,37 @@ import './App.css';
 
 function App() {
 
-  const isUserLoggedIn = localStorage.getItem("email") !== "" ? true : false;
+  // const isUserLoggedIn = localStorage.getItem("email") !== "" ? true : false;
+  const isUserLoggedIn = localStorage.getItem("email") !== null ? true : false;
+
 
   return (
     <div className="App">
-        <Switch>
-          {/* <Route path='/' exact component={Home} /> */}
-          <Route
+      <Switch>
+        {/* <Route path='/' exact component={Home} /> */}
+        <Route
           exact
           path="/"
           component={
             isUserLoggedIn
               ? () => <Home />
               : () => (
-                  <Redirect
-                    to="/signin"
-                    component={Signin}
-                  ></Redirect>
-                )
+                <Redirect
+                  to="/signin"
+                  component={Signin}
+                ></Redirect>
+              )
           }
         />
-          <Route path='/signin' component={Signin} />
-          
-          <Route path='/signup' component={Signup} />
-          <Route path='/recharge' component={WalletRecharge} />
-          <Route path='/transfer' component={AmountTransfer} />
-          <Route path='/transactions' component={Transactions} />
-          
-        </Switch>
+        
+        <Route path='/signin' component={Signin} />
+
+        <Route path='/signup' component={Signup} />
+        <Route path='/recharge' component={WalletRecharge} />
+        <Route path='/transfer' component={AmountTransfer} />
+        <Route path='/transactions' component={Transactions} />
+
+      </Switch>
     </div>
   );
 }

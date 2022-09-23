@@ -11,7 +11,6 @@ const Header = (props) => {
 
     const logout = () => {
         dispatch(signout());
-        // return <Redirect to={`/signin`} />
     }
 
     return (

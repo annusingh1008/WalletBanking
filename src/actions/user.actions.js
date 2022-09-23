@@ -3,6 +3,8 @@ import axios from "axios";
 
 export const signup = (user) => {
 
+    console.log(user);
+
     return async (dispatch) => {
 
         dispatch({type: userConstants.USER_REGISTER_REQUEST})
@@ -33,3 +35,4 @@ export const signup = (user) => {
 
     }
 }
+

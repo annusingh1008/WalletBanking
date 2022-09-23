@@ -11,6 +11,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
 
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
@@ -20,20 +21,21 @@ const Signup = () => {
         setLastName("");
         setEmail("");
         setPassword("");
+        setAccountNumber("")
     }, [user.loading])
 
     const userSignup = (e) => {
         e.preventDefault();
-        const user = { firstName, lastName, email, password }
+        const user = { firstName, lastName, email, password, accountNumber }
 
         dispatch(signup(user));
     }
 
     return (
         <Layout>
-            <Container style={{ marginTop: "150px" }}>
+            <Container style={{ marginTop: "110px" }}>
                 <Row >
-                    <Col md={{ span: 7, offset: 4 }}>
+                    <Col md={{ span: 6, offset: 3 }}>
                         <Form onSubmit={userSignup}>
                             <label>First Name</label>
                             <br />
@@ -74,6 +76,16 @@ const Signup = () => {
                                 value={password}
                                 type="password"
                                 onChange={(e) => setPassword(e.target.value)}
+                            /> <br />
+
+                            <label className='label'>Account Number</label>
+                            <br />
+                            <input
+                                className='input'
+                                placeholder="Account Number"
+                                value={accountNumber}
+                                type="text"
+                                onChange={(e) => setAccountNumber(e.target.value)}
                             /> <br />
                             <Button className='btn' variant="primary" type="submit">
                                 Submit

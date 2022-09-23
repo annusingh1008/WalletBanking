@@ -45,7 +45,5 @@ export const signout = () => {
         dispatch({type: authConstants.LOGOUT_SUCCESS});
 
         localStorage.clear();
-        <Redirect to={`/signin`} />
-        
     }
 }

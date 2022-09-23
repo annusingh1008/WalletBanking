@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap'
+import { useDispatch } from 'react-redux';
+import { recharge } from '../../actions/recharge.actions';
 import Layout from '../Layout'
+import {getUserDetails} from '../../actions/userDetails.actions'
 import './style.css';
 
 const WalletRecharge = () => {
@@ -8,33 +11,26 @@ const WalletRecharge = () => {
   const [amount, setAmount] = useState();
   const [confirmModal, setConfirmModal] = useState(false);
 
-  const recharge = (e) => {
-    
+  const dispatch = useDispatch();
+
+  const confirmRecharge = (e) => {
     e.preventDefault();
     setConfirmModal(true);
-    console.log("Recharged Successfully");
   }
 
-  if (confirmModal) {
-    return (
-      <>
-      {/* Recharge */}
-      <Modal.Dialog>
-      <Modal.Header closeButton>
-        <Modal.Title>Modal title</Modal.Title>
-      </Modal.Header>
+  const walletRecharge = () => {
 
-      <Modal.Body>
-        <p>Modal body text goes here.</p>
-      </Modal.Body>
+    const email = {
+      email : localStorage.getItem('email')
+    }
 
-      <Modal.Footer>
-        <Button variant="secondary">Close</Button>
-        <Button variant="primary">Save changes</Button>
-      </Modal.Footer>
-    </Modal.Dialog>
-      </>
-    )
+    dispatch(getUserDetails(email));
+
+    // const rechargeDetails = {
+    //   amount: amount
+    // }
+
+    // dispatch(recharge(rechargeDetails))
   }
 
   return (
@@ -43,7 +39,7 @@ const WalletRecharge = () => {
         <Row md={12}>
           <Col>
             <div className='heading'>Wallet Recharge</div>
-            <Form className='form' onSubmit={recharge} >
+            <Form className='form' onSubmit={confirmRecharge} >
               <label>Amount</label><br />
               <input
                 type="text"
@@ -55,6 +51,31 @@ const WalletRecharge = () => {
             </Form>
           </Col>
         </Row>
+
+        {confirmModal && (
+          <Modal
+            show={confirmModal}
+            onHide={() => setConfirmModal(false)}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => setConfirmModal(false)}
+              >
+                Close
+              </Button>
+              <Button variant="primary" onClick={walletRecharge} >Confirm</Button>
+            </Modal.Footer>
+          </Modal>
+        )}
       </Container>
     </Layout>
   )
