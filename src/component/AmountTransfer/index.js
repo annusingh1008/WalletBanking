@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '../Layout'
 import { Row, Col, Container, Button, Form, Modal } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import  {amountTransfer}  from '../../actions/amountTransfer.action';
 
 const AmountTransfer = () => {
@@ -11,6 +11,7 @@ const AmountTransfer = () => {
   const [accountNumber, setAccountNumber] = useState('');
 
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
 
   const confirmTransaction = (e) => {
     e.preventDefault();
@@ -21,7 +22,10 @@ const AmountTransfer = () => {
       console.log("Transaction Successful");
       const amountDetails = {
         amount: amount, 
-        accountNumber: accountNumber
+        accountNumber: auth.user.accountNumber,
+        creditToAccountNumber: accountNumber,
+        currentAmount: auth.user.amount,
+        transactionsList: auth.user.transactionsList
       }
       dispatch(amountTransfer(amountDetails))
   }
@@ -51,7 +55,7 @@ const AmountTransfer = () => {
                 onChange={(e) => setAmount(e.target.value)}
               ></input><br />
 
-              <Button type='variant'>Recharge</Button>
+              <Button type='variant'>Transfer Amount</Button>
             </Form>
           </Col>
         </Row>

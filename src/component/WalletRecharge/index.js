@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { recharge } from '../../actions/recharge.actions';
 import Layout from '../Layout'
-import {getUserDetails} from '../../actions/userDetails.actions'
 import './style.css';
 
 const WalletRecharge = () => {
@@ -13,6 +12,8 @@ const WalletRecharge = () => {
 
   const dispatch = useDispatch();
 
+  const auth = useSelector(state => state.auth)
+
   const confirmRecharge = (e) => {
     e.preventDefault();
     setConfirmModal(true);
@@ -20,17 +21,13 @@ const WalletRecharge = () => {
 
   const walletRecharge = () => {
 
-    const email = {
-      email : localStorage.getItem('email')
+    const rechargeDetails = {
+      accountNumber: auth.user.accountNumber,
+      amount: amount,
+      currentAmount: auth.user.amount
     }
 
-    dispatch(getUserDetails(email));
-
-    // const rechargeDetails = {
-    //   amount: amount
-    // }
-
-    // dispatch(recharge(rechargeDetails))
+    dispatch(recharge(rechargeDetails));
   }
 
   return (
@@ -39,7 +36,7 @@ const WalletRecharge = () => {
         <Row md={12}>
           <Col>
             <div className='heading'>Wallet Recharge</div>
-            <Form className='form' onSubmit={confirmRecharge} >
+            <Form className='form' onSubmit={walletRecharge} >
               <label>Amount</label><br />
               <input
                 type="text"
@@ -52,7 +49,7 @@ const WalletRecharge = () => {
           </Col>
         </Row>
 
-        {confirmModal && (
+        {/* {confirmModal && (
           <Modal
             show={confirmModal}
             onHide={() => setConfirmModal(false)}
@@ -75,7 +72,7 @@ const WalletRecharge = () => {
               <Button variant="primary" onClick={walletRecharge} >Confirm</Button>
             </Modal.Footer>
           </Modal>
-        )}
+        )} */}
       </Container>
     </Layout>
   )

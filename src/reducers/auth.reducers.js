@@ -1,4 +1,4 @@
-import { authConstants } from "../actions/constants"
+import { amountTransferConstants, authConstants, getUserDetailsConstants, rechargeConstants } from "../actions/constants"
 
 const initState = {
     user: {
@@ -6,6 +6,9 @@ const initState = {
         lastName: '',
         email: '',
         password: '',
+        accountNumber: '',
+        amount: '',
+        transactionsList: [],
     },
     authenticate: false,
     loading: false,
@@ -13,9 +16,9 @@ const initState = {
     message: ''
 }
 
-export default (state = initState, action) => {
+const reducer = (state = initState, action) => {
 
-    switch(action.type){
+    switch (action.type) {
         case authConstants.LOGIN_REQUEST:
             state = {
                 ...state,
@@ -28,7 +31,68 @@ export default (state = initState, action) => {
                 user: action.payload,
                 authenticate: true
             }
+            break;
+
+        case authConstants.LOGOUT_REQUEST:
+            state = {
+                ...state,
+                loading: true
+            }
+            break;
+
+        case authConstants.LOGOUT_SUCCESS:
+            state = {
+                ...initState
+            }
+            break;
+
+        case getUserDetailsConstants.GET_USER_DETAILS_REQUEST:
+            state = {
+                ...state
+            }
+            break;
+
+        case getUserDetailsConstants.GET_USER_DETAILS_SUCCESS:
+            state = {
+                ...state,
+                user: action.payload
+            }
+            break;
+
+        case getUserDetailsConstants.GET_USER_DETAILS_FAILURE:
+            state = {
+                ...state
+            }
+            break;
+
+        case rechargeConstants.RECHARGE_SUCCESS:
+            state = {
+                ...state,
+                user: action.payload
+            }
+            break;
+
+        case rechargeConstants.RECHARGE_FAILURE:
+            state = {
+                ...state
+            }
+            break;
+
+        case amountTransferConstants.AMOUNT_TRANSFER_SUCCESS:
+            state = {
+                ...state,
+                user: action.payload
+            }
+            break;
+
+        case amountTransferConstants.AMOUNT_TRANSFER_FAILURE:
+            state = {
+                ...state
+            }
+            break;
     }
 
     return state;
 }
+
+export default reducer;

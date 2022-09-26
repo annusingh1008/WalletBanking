@@ -7,7 +7,7 @@ const initState = {
 
 }
 
-export default (state = initState, action) => {
+const reducer = (state = initState, action) => {
 
     switch (action.type) {
         case userConstants.USER_REGISTER_REQUEST:
@@ -35,3 +35,5 @@ export default (state = initState, action) => {
     }
     return state;
 }
+
+export default reducer;

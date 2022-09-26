@@ -13,8 +13,31 @@ export const amountTransfer = (amountDetails) => {
             ...amountDetails
         })
 
-        console.log(res);
+        const amount = parseInt(amountDetails.currentAmount) - parseInt(amountDetails.amount)
 
+        const details = {
+            amount: amount,
+            accountNumber: amountDetails.accountNumber,
+            transactionsList: amountDetails.transactionsList    
+        }
+
+        if (res.status === 200) {
+            if(res.data === "Amount Transferred Successfully...!!"){
+                dispatch({
+                    type: amountTransferConstants.AMOUNT_TRANSFER_SUCCESS,
+                    payload: details
+                })
+                alert("Transaction Successful")
+            }else if(res.data === "Insufficient Amount"){
+                alert("Transaction Failed, Insufficient Amount")
+            }
+            
+        } else {
+            dispatch({
+                type: amountTransferConstants.AMOUNT_TRANSFER_FAILURE,
+                payload: { error: res.payload.error }
+            })
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 // import axios from "../helpers/axios";
 import axios from "axios";
 import { authConstants } from "./constants"
-import { Redirect } from "react-router-dom";
 
 export const login = (user) => {
 
@@ -38,12 +37,38 @@ export const login = (user) => {
     }
 }
 
-export const signout = () => {
+export const isUserLoggedIn = () => {
 
     return async (dispatch) => {
-        
-        dispatch({type: authConstants.LOGOUT_SUCCESS});
 
-        localStorage.clear();
+        const email = localStorage.getItem('email');
+        if(email){
+            const user = JSON.parse(localStorage.getItem('user'));
+            dispatch({
+                type: authConstants.LOGIN_SUCCESS,
+                payload: {
+                    user
+                }
+            });
+        }else{
+            dispatch({
+                type: authConstants.LOGIN_FAILURE,
+                payload: {error : 'Failed to login'}
+            })
+        }
     }
 }
+
+export const signout = () => {
+
+    return async dispatch => {
+
+        dispatch({ type: authConstants.LOGOUT_REQUEST });
+
+        localStorage.clear();
+        dispatch({ type: authConstants.LOGOUT_SUCCESS });
+        
+    }
+}
+
+
