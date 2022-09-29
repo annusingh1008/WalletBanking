@@ -3,6 +3,7 @@ import Layout from '../Layout'
 import { Row, Col, Container, Button, Form, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import  {amountTransfer}  from '../../actions/amountTransfer.action';
+import { getUserDetails } from '../../actions/getUserDetails.actions';
 
 const AmountTransfer = () => {
 
@@ -19,7 +20,6 @@ const AmountTransfer = () => {
   }
 
   const confirmAmountTransfer = () => {
-      console.log("Transaction Successful");
       const amountDetails = {
         amount: amount, 
         accountNumber: auth.user.accountNumber,
@@ -27,7 +27,9 @@ const AmountTransfer = () => {
         currentAmount: auth.user.amount,
         transactionsList: auth.user.transactionsList
       }
+      
       dispatch(amountTransfer(amountDetails))
+  
   }
 
   return (
@@ -36,7 +38,7 @@ const AmountTransfer = () => {
         <Row md={12}>
           <Col>
             <div className='heading'>Transfer Amount</div>
-            <Form className='form' onSubmit={confirmTransaction} >
+            <Form className='form' onSubmit={confirmAmountTransfer} >
               <label>Account Number</label><br />
 
               <input
@@ -44,6 +46,8 @@ const AmountTransfer = () => {
                 placeholder='Account Number'
                 value={accountNumber}
                 onChange={(e) => setAccountNumber(e.target.value)}
+                maxLength={10}
+                minLength={10}
               ></input><br />
 
               <label>Amount</label><br />
@@ -60,7 +64,7 @@ const AmountTransfer = () => {
           </Col>
         </Row>
 
-        {confirmModal && (
+        {/* {confirmModal && (
           <Modal
             show={confirmModal}
             onHide={() => {setConfirmModal(false)}}
@@ -83,7 +87,7 @@ const AmountTransfer = () => {
               <Button variant="primary" onClick={confirmAmountTransfer} >Confirm</Button>
             </Modal.Footer>
           </Modal>
-        )}
+        )} */}
       </Container>
     </Layout>
   )

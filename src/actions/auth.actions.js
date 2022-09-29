@@ -24,9 +24,9 @@ export const login = (user) => {
                     payload: user
                 })
             }else if(res.data === "Account does not exists with this email...!!"){
-                alert("Please check your Email!!");
+                alert("Account does not exists!!");
             }else if(res.data === "Incorrect Password...!!"){
-                alert("Please check your Email and Password!!")
+                alert("Please check your Password!!")
             }
         }else{
             dispatch({

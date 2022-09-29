@@ -13,7 +13,7 @@ const initState = {
     authenticate: false,
     loading: false,
     error: null,
-    message: ''
+    transactionSuccess: false
 }
 
 const reducer = (state = initState, action) => {
@@ -68,7 +68,7 @@ const reducer = (state = initState, action) => {
         case rechargeConstants.RECHARGE_SUCCESS:
             state = {
                 ...state,
-                user: action.payload
+                user: action.payload,
             }
             break;
 

@@ -1,6 +1,6 @@
- .table {
-    margin-left: 101px;
-    width: 90%;
+.cashback-table {
+    margin-left: 250px;
+    width: 60%;
 } 
 
 thead tr:nth-child(1) th {

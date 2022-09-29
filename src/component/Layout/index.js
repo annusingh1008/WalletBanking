@@ -17,8 +17,9 @@ const Layout = (props) => {
                   <li><NavLink exact to={`/`}>Home</NavLink></li>
                   <li><NavLink to={`/recharge`}>Recharge Wallet</NavLink></li>
                   <li><NavLink to={`/transfer`}>Amount Transfer</NavLink></li>
-                  <li><NavLink to={`/transactions`}>Transactions</NavLink></li>
+                  <li><NavLink to={`/transactions`}>Account Statement</NavLink></li>
                   <li><NavLink to={`/checkBalance`}>Check Balance</NavLink></li>
+                  <li><NavLink to={`/cashback`}>Cashback</NavLink></li>
                 </ul>
               </Col>
               <Col md={10} style={{ marginLeft: 'auto', paddingTop: '60px' }}>

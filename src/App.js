@@ -12,13 +12,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from './actions/getUserDetails.actions';
 import { isUserLoggedIn } from './actions/auth.actions';
 import CheckBalance from './component/CheckBalance';
+import Cashback from './component/Cashback';
 
 function App() {
 
   // const isUserLoggedIn = localStorage.getItem("email") !== "" ? true : false;
   // const loggedIn = window.localStorage.getItem("email") !== null ? true : false;
-  const history = useHistory();
-  history.push("/")
+
+  // const history = useHistory();
+  // history.push("/signin")
 
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -30,13 +32,11 @@ function App() {
 
     if (auth.authenticate) {
       const email = localStorage.getItem('email')
-      const details = {
-        email: email
-      }
-      dispatch(getUserDetails(details));
+
+      dispatch(getUserDetails(email));
     }
 
-  }, [auth.authenticate])
+  }, [auth.authenticate, dispatch])
 
   // useEffect(() => {
   //   (() => {
@@ -45,8 +45,6 @@ function App() {
   //     }
   //   })();
   // });
-
-  
 
   return (
     <div className="App">
@@ -102,6 +100,16 @@ function App() {
 
           if (isUserLoggedIn) {
             return <CheckBalance />
+          } else {
+            return <Redirect to={`/signin`} />
+          }
+        }} />
+
+        <Route path='/cashback' component={() => {
+          const isUserLoggedIn = localStorage.getItem('email');
+
+          if (isUserLoggedIn) {
+            return <Cashback />
           } else {
             return <Redirect to={`/signin`} />
           }

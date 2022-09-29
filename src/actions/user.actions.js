@@ -19,6 +19,7 @@ export const signup = (user) => {
                     type: userConstants.USER_REGISTER_SUCCESS,
                     payload: res.data
                 })
+                alert("Account Created Successfully!!")
             }else{
                 alert("Email already exists...!! Please try with another Email")
                 // dispatch({

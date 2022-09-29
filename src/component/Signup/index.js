@@ -45,6 +45,7 @@ const Signup = () => {
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
+                                required
                             />
                             <br />
 
@@ -56,6 +57,7 @@ const Signup = () => {
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
+                                required
                             /> <br />
 
                             <label className='label'>Email</label>
@@ -66,6 +68,7 @@ const Signup = () => {
                                 value={email}
                                 type="email"
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             /> <br />
 
                             <label className='label'>Password</label>
@@ -76,6 +79,7 @@ const Signup = () => {
                                 value={password}
                                 type="password"
                                 onChange={(e) => setPassword(e.target.value)}
+                                required
                             /> <br />
 
                             <label className='label'>Account Number</label>
@@ -84,8 +88,11 @@ const Signup = () => {
                                 className='input'
                                 placeholder="Account Number"
                                 value={accountNumber}
+                                minLength="10"
+                                maxlength="10"
                                 type="text"
                                 onChange={(e) => setAccountNumber(e.target.value)}
+                                required
                             /> <br />
                             <Button className='btn' variant="primary" type="submit">
                                 Submit

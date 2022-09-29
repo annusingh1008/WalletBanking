@@ -13,7 +13,7 @@ const CheckBalance = () => {
             <Container className='container'>
                 <Row md={12}>
                     <Col>
-                        <div className='heading'>Current Balance</div> 
+                        <div className='heading'>Current Balance</div>
                         <div className='balance'>Rs. {auth.user.amount}</div>
                     </Col>
                 </Row>

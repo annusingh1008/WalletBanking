@@ -30,6 +30,8 @@ export const amountTransfer = (amountDetails) => {
                 alert("Transaction Successful")
             }else if(res.data === "Insufficient Amount"){
                 alert("Transaction Failed, Insufficient Amount")
+            }else{
+                alert("Please check Account Number")
             }
             
         } else {
