@@ -6,11 +6,16 @@ export const login = (user) => {
 
     return async (dispatch) => {
 
+        console.log("action dispatched");
+
         dispatch({type: authConstants.LOGIN_REQUEST})
+        
 
         const res = await axios.post('http://localhost:8085/signin', {
             ...user
         })
+
+        console.log(res);
 
         if(res.status === 200){
  
@@ -24,7 +29,7 @@ export const login = (user) => {
                     payload: user
                 })
             }else if(res.data === "Account does not exists with this email...!!"){
-                alert("Account does not exists!!");
+                alert("Account does not exists!! \nPlease check your email..");
             }else if(res.data === "Incorrect Password...!!"){
                 alert("Please check your Password!!")
             }

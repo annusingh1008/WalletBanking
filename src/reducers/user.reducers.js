@@ -25,13 +25,13 @@ const reducer = (state = initState, action) => {
             }
             break;
 
-        case userConstants.USER_REGISTER_FAILURE:
-            state = {
-                ...state,
-                loading: false,
-                error: action.payload
-            }
-            break;
+        // case userConstants.USER_REGISTER_FAILURE:
+        //     state = {
+        //         ...state,
+        //         loading: false,
+        //         error: action.payload
+        //     }
+        //     break;
     }
     return state;
 }

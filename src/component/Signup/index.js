@@ -11,7 +11,8 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [accountNumber, setAccountNumber] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [mobileNumber, setMobileNumber] = useState('');
 
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
@@ -21,14 +22,19 @@ const Signup = () => {
         setLastName("");
         setEmail("");
         setPassword("");
-        setAccountNumber("")
+        setConfirmPassword("")
+        setMobileNumber("")
     }, [user.loading])
 
     const userSignup = (e) => {
         e.preventDefault();
-        const user = { firstName, lastName, email, password, accountNumber }
+        if (password !== confirmPassword) {
+            alert("Password does not match")
+        } else {
+            const user = { firstName, lastName, email, password, confirmPassword, mobileNumber }
 
-        dispatch(signup(user));
+            dispatch(signup(user));
+        }
     }
 
     return (
@@ -77,21 +83,34 @@ const Signup = () => {
                                 className='input'
                                 placeholder="Password"
                                 value={password}
+                                minLength="8"
                                 type="password"
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             /> <br />
 
-                            <label className='label'>Account Number</label>
+                            <label className='label'>Confirm Password</label>
                             <br />
                             <input
                                 className='input'
-                                placeholder="Account Number"
-                                value={accountNumber}
+                                placeholder="Confirm Password"
+                                value={confirmPassword}
+                                minLength="8"
+                                type="password"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            /> <br />
+
+                            <label className='label'>Mobile Number</label>
+                            <br />
+                            <input
+                                className='input'
+                                placeholder="Mobile Number"
+                                value={mobileNumber}
                                 minLength="10"
                                 maxlength="10"
                                 type="text"
-                                onChange={(e) => setAccountNumber(e.target.value)}
+                                onChange={(e) => setMobileNumber(e.target.value)}
                                 required
                             /> <br />
                             <Button className='btn' variant="primary" type="submit">

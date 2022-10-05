@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Modal, Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { recharge } from '../../actions/recharge.actions';
 import Layout from '../Layout'
@@ -13,18 +13,21 @@ const WalletRecharge = () => {
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth)
+  const balance = useSelector(state => state.balance)
 
-  const confirmRecharge = (e) => {
-    e.preventDefault();
-    setConfirmModal(true);
-  }
+  // const confirmRecharge = (e) => {
+  //   e.preventDefault();
+  //   setConfirmModal(true);
+  // }
 
-  const walletRecharge = () => {
+  const walletRecharge = (e) => {
+
+    const userEmail = localStorage.getItem('email')
 
     const rechargeDetails = {
-      accountNumber: auth.user.accountNumber,
+      email: userEmail,
       amount: amount,
-      currentAmount: auth.user.amount
+      currentAmount: balance.amount
     }
 
     dispatch(recharge(rechargeDetails));
@@ -43,6 +46,7 @@ const WalletRecharge = () => {
                 placeholder='1000'
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
+                required
               ></input><br />
               <Button type='variant'>Recharge</Button>
             </Form>
@@ -69,7 +73,7 @@ const WalletRecharge = () => {
               >
                 Close
               </Button>
-              <Button variant="primary" onClick={walletRecharge} >Confirm</Button>
+              <Button variant="primary" >Confirm</Button>
             </Modal.Footer>
           </Modal>
         )} */}

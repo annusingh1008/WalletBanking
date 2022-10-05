@@ -6,8 +6,8 @@ export const amountTransfer = (amountDetails) => {
     console.log(amountDetails);
 
     return async (dispatch) => {
-        
-        dispatch({type: amountTransferConstants.AMOUNT_TRANSFER_REQUEST})
+
+        dispatch({ type: amountTransferConstants.AMOUNT_TRANSFER_REQUEST })
 
         const res = await axios.post('http://localhost:8085/transfer/amount', {
             ...amountDetails
@@ -17,24 +17,31 @@ export const amountTransfer = (amountDetails) => {
 
         const details = {
             amount: amount,
-            accountNumber: amountDetails.accountNumber,
-            transactionsList: amountDetails.transactionsList    
+            email: amountDetails.email,
         }
 
+        console.log(res.data);
+
         if (res.status === 200) {
-            if(res.data === "Amount Transferred Successfully...!!"){
-                dispatch({
-                    type: amountTransferConstants.AMOUNT_TRANSFER_SUCCESS,
-                    payload: details
-                })
-                alert("Transaction Successful")
-            }else if(res.data === "Insufficient Amount"){
+            if (res.data === "Insufficient Amount") {
                 alert("Transaction Failed, Insufficient Amount")
-            }else{
-                alert("Please check Account Number")
+            } else if (res.data === "User does not exist") {
+                alert("User does not exist! \nPlease check your email.")
             }
-            
+            else if (res.data === "Enter a valid amount") {
+                alert("Please enter a valid amount");
+            }
+            else if (res.data === "Amount Transferred Successfully...!!") {
+                alert("Transaction Successful");
+                if (res.data === "Amount Transferred Successfully...!!") {
+                    dispatch({
+                        type: amountTransferConstants.AMOUNT_TRANSFER_SUCCESS,
+                        payload: details
+                    })
+                }
+            }
         } else {
+            alert("Something went wrong");
             dispatch({
                 type: amountTransferConstants.AMOUNT_TRANSFER_FAILURE,
                 payload: { error: res.payload.error }

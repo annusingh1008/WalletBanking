@@ -6,24 +6,21 @@ const initState = {
         lastName: '',
         email: '',
         password: '',
-        accountNumber: '',
         amount: '',
-        transactionsList: [],
     },
     authenticate: false,
     loading: false,
     error: null,
-    transactionSuccess: false
 }
 
 const reducer = (state = initState, action) => {
 
     switch (action.type) {
-        case authConstants.LOGIN_REQUEST:
-            state = {
-                ...state,
-            }
-            break;
+        // case authConstants.LOGIN_REQUEST:
+        //     state = {
+        //         ...state,
+        //     }
+        //     break;
 
         case authConstants.LOGIN_SUCCESS:
             state = {
@@ -46,11 +43,11 @@ const reducer = (state = initState, action) => {
             }
             break;
 
-        case getUserDetailsConstants.GET_USER_DETAILS_REQUEST:
-            state = {
-                ...state
-            }
-            break;
+        // case getUserDetailsConstants.GET_USER_DETAILS_REQUEST:
+        //     state = {
+        //         ...state
+        //     }
+        //     break;
 
         case getUserDetailsConstants.GET_USER_DETAILS_SUCCESS:
             state = {
@@ -59,11 +56,11 @@ const reducer = (state = initState, action) => {
             }
             break;
 
-        case getUserDetailsConstants.GET_USER_DETAILS_FAILURE:
-            state = {
-                ...state
-            }
-            break;
+        // case getUserDetailsConstants.GET_USER_DETAILS_FAILURE:
+        //     state = {
+        //         ...state
+        //     }
+        //     break;
 
         case rechargeConstants.RECHARGE_SUCCESS:
             state = {
@@ -72,11 +69,11 @@ const reducer = (state = initState, action) => {
             }
             break;
 
-        case rechargeConstants.RECHARGE_FAILURE:
-            state = {
-                ...state
-            }
-            break;
+        // case rechargeConstants.RECHARGE_FAILURE:
+        //     state = {
+        //         ...state,
+        //     }
+        //     break;
 
         case amountTransferConstants.AMOUNT_TRANSFER_SUCCESS:
             state = {
@@ -85,11 +82,11 @@ const reducer = (state = initState, action) => {
             }
             break;
 
-        case amountTransferConstants.AMOUNT_TRANSFER_FAILURE:
-            state = {
-                ...state
-            }
-            break;
+        // case amountTransferConstants.AMOUNT_TRANSFER_FAILURE:
+        //     state = {
+        //         ...state
+        //     }
+        //     break;
     }
 
     return state;

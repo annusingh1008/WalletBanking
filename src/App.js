@@ -16,7 +16,6 @@ import Cashback from './component/Cashback';
 
 function App() {
 
-  // const isUserLoggedIn = localStorage.getItem("email") !== "" ? true : false;
   // const loggedIn = window.localStorage.getItem("email") !== null ? true : false;
 
   // const history = useHistory();
@@ -26,9 +25,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!auth.authenticate) {
-      dispatch(isUserLoggedIn());
-    }
+    // if (!auth.authenticate) {
+    //   dispatch(isUserLoggedIn());
+    // }
 
     if (auth.authenticate) {
       const email = localStorage.getItem('email')
@@ -36,7 +35,28 @@ function App() {
       dispatch(getUserDetails(email));
     }
 
-  }, [auth.authenticate, dispatch])
+  }, [auth.authenticate])
+
+  useEffect(() => {
+
+    return () => {
+      if (window.performance.navigation.type == 1) {
+        localStorage.clear();
+        window.location.href = "/signin"
+      }
+
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   // if (!auth.authenticate) {
+  //   //   dispatch(isUserLoggedIn());
+  //   // }
+  //     const email = localStorage.getItem('email')
+
+  //     dispatch(getUserDetails(email));
+
+  // }, [dispatch])
 
   // useEffect(() => {
   //   (() => {

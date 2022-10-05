@@ -3,6 +3,8 @@ import axios from "axios";
 
 export const getUserDetails = (email) => {
 
+    console.log("dispatched");
+
     return async dispatch => {
 
         dispatch({type : getUserDetailsConstants.GET_USER_DETAILS_REQUEST})

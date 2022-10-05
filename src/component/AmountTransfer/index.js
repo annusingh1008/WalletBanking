@@ -9,23 +9,25 @@ const AmountTransfer = () => {
 
   const [confirmModal, setConfirmModal] = useState(false);
   const [amount, setAmount] = useState();
-  const [accountNumber, setAccountNumber] = useState('');
+  const [email, setEmail] = useState('');
 
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+  const balance = useSelector(state => state.balance);
 
-  const confirmTransaction = (e) => {
-    e.preventDefault();
-    setConfirmModal(true);
-  }
+  // const confirmTransaction = (e) => {
+  //   e.preventDefault();
+  //   setConfirmModal(true);
+  // }
 
   const confirmAmountTransfer = () => {
+      console.log("confirm amount transfer");
+      const userEmail = localStorage.getItem('email');
       const amountDetails = {
+        email: userEmail,
         amount: amount, 
-        accountNumber: auth.user.accountNumber,
-        creditToAccountNumber: accountNumber,
-        currentAmount: auth.user.amount,
-        transactionsList: auth.user.transactionsList
+        creditToEmail: email,
+        currentAmount: balance.amount,
       }
       
       dispatch(amountTransfer(amountDetails))
@@ -39,15 +41,14 @@ const AmountTransfer = () => {
           <Col>
             <div className='heading'>Transfer Amount</div>
             <Form className='form' onSubmit={confirmAmountTransfer} >
-              <label>Account Number</label><br />
+              <label>Email</label><br />
 
               <input
-                type="text"
-                placeholder='Account Number'
-                value={accountNumber}
-                onChange={(e) => setAccountNumber(e.target.value)}
-                maxLength={10}
-                minLength={10}
+                type="email"
+                placeholder='Email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               ></input><br />
 
               <label>Amount</label><br />
@@ -57,6 +58,7 @@ const AmountTransfer = () => {
                 placeholder='1000'
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
+                required
               ></input><br />
 
               <Button type='variant'>Transfer Amount</Button>

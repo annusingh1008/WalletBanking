@@ -3,7 +3,7 @@ import { rechargeConstants } from "./constants";
 
 export const recharge = (rechargeDetails) => {
 
-    console.log("rechargeDeatils", rechargeDetails); 
+    console.log("rechargeDeatils", rechargeDetails);
 
     return async (dispatch) => {
 
@@ -13,20 +13,31 @@ export const recharge = (rechargeDetails) => {
             ...rechargeDetails
         })
 
+        console.log(res.data);
+
         const amount = parseInt(rechargeDetails.amount) + parseInt(rechargeDetails.currentAmount);
 
         const details = {
-            accountNumber: rechargeDetails.accountNumber,
+            email: rechargeDetails.email,
             amount: amount
         }
 
+        console.log(res.data);
+
         if (res.status === 200) {
-            dispatch({
-                type: rechargeConstants.RECHARGE_SUCCESS,
-                payload: details
-            })
-            alert("Recharged Successfully")
+            if (res.data === "Amount Credited Successfully...!!") {
+                alert("Recharged Successful")
+                if (res.data === "Amount Credited Successfully...!!") {
+                    dispatch({
+                        type: rechargeConstants.RECHARGE_SUCCESS,
+                        payload: details
+                    })
+                }
+            } else if (res.data === "Enter a valid amount") {
+                alert("Please enter a valid amount")
+            }
         } else {
+            alert("Recharged Failed...!! \nSomething went wrong")
             dispatch({
                 type: rechargeConstants.RECHARGE_FAILURE,
                 payload: { error: res.payload.error }

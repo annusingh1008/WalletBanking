@@ -30,7 +30,7 @@ const Signin = () => {
         <Row>
           <Col md={{ span: 6, offset: 3 }}>
             <Form onSubmit={userLogin}>
-              <label>Email</label>
+              <label data-testid="button">Email</label>
               <br />
               <input
                 className='input'
@@ -38,9 +38,10 @@ const Signin = () => {
                 value={email}
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
+                required
               /> <br />
 
-              <label className='label'>Password</label>
+              <label data-testid="button" className='label'>Password</label>
               <br />
               <input
                 className='input'
@@ -48,6 +49,7 @@ const Signin = () => {
                 value={password}
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
+                required
               /> <br/>
               <Button className='btn' variant="primary" type="submit">
                 Submit

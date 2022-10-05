@@ -3,8 +3,6 @@ import axios from "axios";
 
 export const signup = (user) => {
 
-    console.log(user);
-
     return async (dispatch) => {
 
         dispatch({type: userConstants.USER_REGISTER_REQUEST})
@@ -22,16 +20,13 @@ export const signup = (user) => {
                 alert("Account Created Successfully!!")
             }else{
                 alert("Email already exists...!! Please try with another Email")
-                // dispatch({
-                //     type: userConstants.USER_REGISTER_FAILURE,
-                //     payload: "Email already exists...!!"
-                // })
             }
         }else{
             dispatch({
                 type: userConstants.USER_REGISTER_FAILURE,
                 payload: {error: res.payload.error}
             })
+            alert("Something went wrong..");
         }
 
     }
