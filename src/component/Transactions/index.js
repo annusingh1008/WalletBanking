@@ -78,7 +78,7 @@ const Transactions = () => {
 
               </tbody>
             </Table>
-            <Card.Footer>
+            <Card.Footer className='all-btn'>
               <div style={{ marginLeft: "450px" }}>
                 Showing Page {currentPage+1} of {totalPages} 
               </div>
@@ -86,7 +86,8 @@ const Transactions = () => {
                 <InputGroup size="sm">
                     <Button
                       type="button"
-                      variant="outline-info"
+                      className='button'
+                      variant="outline-dark"
                       disabled={currentPage === 0 ? true : false}
                       onClick={firstPage}
                     >
@@ -94,7 +95,8 @@ const Transactions = () => {
                     </Button>
                     <Button
                       type="button"
-                      variant="outline-info"
+                      className='button'
+                      variant="outline-dark"
                       disabled={currentPage === 0 ? true : false}
                       onClick={prevPage}
                     >
@@ -107,7 +109,8 @@ const Transactions = () => {
                   /> */}
                     <Button
                       type="button"
-                      variant="outline-info"
+                      className='button'
+                      variant="outline-dark"
                       disabled={currentPage === totalPages-1 ? true : false}
                       onClick={nextPage}
                     >
@@ -115,7 +118,8 @@ const Transactions = () => {
                     </Button>
                     <Button
                       type="button"
-                      variant="outline-info"
+                      className='button'
+                      variant="outline-dark"
                       disabled={currentPage === totalPages-1 ? true : false}
                       onClick={lastPage}
                     >

@@ -1,27 +1,17 @@
-import { getUserDetailsConstants } from "./constants";
-import axios from "axios";
+// import { getUserDetailsConstants } from "./constants";
+// import axios from "axios";
 
-export const getUserDetails = (email) => {
+// export const getUserDetails = (email) => {
+//   return async (dispatch) => {
+//     const res = await axios.get(
+//       `http://localhost:8085/getUserDetails/${email}`
+//     );
 
-    console.log("dispatched");
-
-    return async dispatch => {
-
-        dispatch({type : getUserDetailsConstants.GET_USER_DETAILS_REQUEST})
-
-        const res = await axios.get(`http://localhost:8085/getUserDetails/${email}`);
-
-        if(res.status === 200){
-            dispatch({
-                type: getUserDetailsConstants.GET_USER_DETAILS_SUCCESS,
-                payload: res.data
-            })
-        }else{
-            dispatch({
-                type: getUserDetailsConstants.GET_USER_DETAILS_FAILURE,
-                payload: {error: res.payload.error}
-            })
-        }
-    }
-
-}
+//     if (res.status === 200) {
+//       dispatch({
+//         type: getUserDetailsConstants.GET_USER_DETAILS_SUCCESS,
+//         payload: res.data,
+//       });
+//     }
+//   };
+// };

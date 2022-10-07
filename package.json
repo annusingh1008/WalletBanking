@@ -53,6 +53,7 @@
       "html",
       "lcov"
     ],
+    "resetMocks": false,
     "coveragePathIgnorePatterns": [
       "src/app/store.js",
       "src/serviceWorkerRegistration.js",

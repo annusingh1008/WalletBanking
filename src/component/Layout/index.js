@@ -22,7 +22,7 @@ const Layout = (props) => {
                   <li><NavLink to={`/cashback`}>Cashback</NavLink></li>
                 </ul>
               </Col>
-              <Col md={10} style={{ marginLeft: 'auto', paddingTop: '60px' }}>
+              <Col md={10} style={{ marginLeft: '50px', paddingTop: '60px' }}>
                 {props.children}
              </Col> 
             </Row>

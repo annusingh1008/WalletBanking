@@ -1,29 +1,49 @@
-import React from 'react';
-import { render, screen} from '@testing-library/react'
-import Header from '../index'
-import { Provider } from 'react-redux';
-import store from '../../../store/index'
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import Header from "../index";
+import { Provider } from "react-redux";
+import store from "../../../store/index";
+import { BrowserRouter as Router } from "react-router-dom";
+
+const localStorageData = {
+  email: "annu",
+  password: "1234",
+};
+
+const localStorageMock = (function () {
+  return {
+    getItem: function (key) {
+      return localStorageData[key];
+    },
+    removeItem: function () {
+      return null;
+    },
+    setItem: jest.fn(),
+  };
+})();
 
 describe("Header", () => {
-    it('should render Signout button', () => {
-        render(<Provider store={store}>
-            <Router>
-                <Header />
-            </Router>
-        </Provider>)
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-        // const element = screen.findAllByRole('span');
-        // expect(element[0]).toBeInTheDocument();
+  Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
+  it("renders properly", () => {
+    const { container } = render(
+      <Provider store={store}>
+        <Router>
+          <Header />
+        </Router>
+      </Provider>
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  describe("#getItem", () => {
+    it("returns the user email", () => {
+      const result = localStorage.getItem("email");
+      expect(result).toEqual("annu");
     });
-
-    it('renders properly', () => {
-        const { container } = render(<Provider store={store}>
-            <Router>
-                <Header />
-            </Router>
-        </Provider>);
-        expect(container.firstChild).toMatchSnapshot();
-    });
-})
+  });
+});
