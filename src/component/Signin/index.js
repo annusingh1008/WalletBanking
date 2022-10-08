@@ -39,7 +39,7 @@ const Signin = () => {
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
                 required
-              />{" "}
+              />
               <br />
               <label className="label">Password</label>
               <br />

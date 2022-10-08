@@ -3,6 +3,7 @@ import Layout from "../Layout";
 import { Row, Col, Container, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { amountTransfer } from "../../actions/amountTransfer.action";
+import { getBalance } from "../../reducers/balance.reducer";
 
 const AmountTransfer = () => {
   const [amount, setAmount] = useState();
@@ -11,9 +12,9 @@ const AmountTransfer = () => {
   const [isAmountSufficient, setIsAmountSufficient] = useState("");
 
   const dispatch = useDispatch();
-  const balance = useSelector((state) => state.balance);
+  const balance = useSelector(getBalance);
   const userEmail = localStorage.getItem("email");
-
+  console.log("balance", balance);
   const confirmAmountTransfer = (e) => {
     e.preventDefault();
     if (amount <= 0) {
@@ -48,6 +49,7 @@ const AmountTransfer = () => {
               <br />
 
               <input
+                data-testid="emailInputBox"
                 type="email"
                 placeholder="Email"
                 value={email}
@@ -60,6 +62,7 @@ const AmountTransfer = () => {
               <br />
 
               <input
+                data-testid="amountInputBox"
                 type="text"
                 placeholder="1000"
                 value={amount}
@@ -69,7 +72,9 @@ const AmountTransfer = () => {
               <br />
               {amountErr && <p className="text-danger">{amountErr}</p>}
               {isAmountSufficient && (
-                <p className="text-danger">Insufficient Amount</p>
+                <p data-testid="insufficient-amount" className="text-danger">
+                  Insufficient Amount
+                </p>
               )}
 
               <Button data-testid="button" type="variant">

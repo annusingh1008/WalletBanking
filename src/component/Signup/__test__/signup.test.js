@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import store from "../../../store/index";
 import { BrowserRouter as Router } from "react-router-dom";
 
-describe("Signin", () => {
+describe("Signup", () => {
   it("should render signup textarea element", () => {
     render(
       <Provider store={store}>

@@ -11,6 +11,7 @@ const Header = (props) => {
 
   const logout = () => {
     dispatch(signout());
+    localStorage.clear();
   };
 
   const confirmSignout = (e) => {

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCashBacks,
   getTotalCashbacks,
+  getCashbacks,
 } from "../../actions/cashback.actions";
 import "./style.css";
 
@@ -12,42 +13,43 @@ const Cashback = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTotalCashbacks());
-    dispatch(getAllCashBacks(0));
+    dispatch(getTotalCashbacks(email));
+    dispatch(getAllCashBacks(0, email));
   }, []);
 
-  const cashbacks = useSelector((state) => state.cashbacks);
-  const cashbackList = cashbacks.cashbackList;
-  // const reversedcashbackList = [...cashbackList].reverse();
+  const cashbacks = useSelector(getCashbacks);
+  // const cashbacks = useSelector((state) => state.cashbacks);
+  const cashbackList = cashbacks?.cashbackList;
+  const email = localStorage.getItem("email");
 
-  const length = cashbacks.totalPages;
+  const length = cashbacks?.totalPages;
   const totalPages = length % 10 == 0 ? length / 10 : parseInt(length / 10) + 1;
 
   const [currentPage, setCurrentPage] = useState(0);
 
   const firstPage = () => {
     setCurrentPage(0);
-    dispatch(getAllCashBacks(0));
+    dispatch(getAllCashBacks(0, email));
   };
 
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
-    dispatch(getAllCashBacks(currentPage - 1));
+    dispatch(getAllCashBacks(currentPage - 1), email);
   };
 
   const lastPage = () => {
     setCurrentPage(totalPages - 1);
-    dispatch(getAllCashBacks(totalPages - 1));
+    dispatch(getAllCashBacks(totalPages - 1), email);
   };
 
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
-    dispatch(getAllCashBacks(currentPage + 1));
+    dispatch(getAllCashBacks(currentPage + 1), email);
   };
 
   return (
     <Layout sidebar>
-      {cashbackList.length !== 0 ? (
+      {cashbackList?.length > 1 ? (
         <>
           <Table striped bordered hover className="cashback-table">
             <thead className="text-center">

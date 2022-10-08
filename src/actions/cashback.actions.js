@@ -1,34 +1,31 @@
-import axios from "axios"
+import axios from "axios";
 import { cashbackConstants } from "./constants";
 
-export const getAllCashBacks = (currentPage) => {
-    return async (dispatch) => {
+export const getAllCashBacks = (currentPage, email) => {
+  return async (dispatch) => {
+    const userEmail = localStorage.getItem("email");
+    const res = await axios.get(
+      `http://localhost:8085/getAllCashbacks/${userEmail}?pageNumber=${currentPage}&pageSize=${10}`
+    );
 
-        const email = localStorage.getItem('email');
+    dispatch({
+      type: cashbackConstants.CASHBACK_SUCCESS,
+      payload: res.data,
+    });
+  };
+};
 
-        const res = await axios.get(`http://localhost:8085/getAllCashbacks/${email}?pageNumber=${currentPage}&pageSize=${10}`);
+export const getCashbacks = (state) => state.cashbacks;
 
-        const cashbacks = res.data;
+export const getTotalCashbacks = (email) => {
+  return async (dispatch) => {
+    const res = await axios.get(
+      `http://localhost:8085/getTotalCashbacks/${email}`
+    );
 
-        dispatch({
-            type: cashbackConstants.CASHBACK_SUCCESS,
-            payload: cashbacks
-        })
-    }
-}
-
-export const getTotalCashbacks = () => {
-
-    return async (dispatch) => {
-
-        const email = localStorage.getItem('email')
-
-        const res = await axios.get(`http://localhost:8085/getTotalCashbacks/${email}`);
-        
-        dispatch({ 
-            type: cashbackConstants.TOTAL_CASHBACKS_SUCCESS,
-            payload: res.data
-        })
-    }
-
-}
+    dispatch({
+      type: cashbackConstants.TOTAL_CASHBACKS_SUCCESS,
+      payload: res.data,
+    });
+  };
+};
