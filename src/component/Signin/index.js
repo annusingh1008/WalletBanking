@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Layout from "../Layout";
-import { login } from "../../actions/auth.actions";
+import { getAuthDetails, login } from "../../actions/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
 import { Redirect } from "react-router-dom";
@@ -11,7 +11,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(getAuthDetails);
 
   const userLogin = (e) => {
     e.preventDefault();
@@ -29,10 +29,11 @@ const Signin = () => {
       <Container style={{ marginTop: "110px" }}>
         <Row style={{ marginLeft: "18%" }}>
           <Col>
-            <Form data-testid="form" onSubmit={userLogin}>
+            <Form data-testid="input-form" onSubmit={userLogin}>
               <label>Email</label>
               <br />
               <input
+                data-testid="inputEmail"
                 className="input"
                 placeholder="Email"
                 value={email}
@@ -44,6 +45,7 @@ const Signin = () => {
               <label className="label">Password</label>
               <br />
               <input
+                data-testid="inputPassword"
                 className="input"
                 placeholder="Password"
                 value={password}
@@ -53,7 +55,7 @@ const Signin = () => {
               />{" "}
               <br />
               <Button
-                data-testid="button"
+                data-testid="submit-btn"
                 className="btn"
                 variant="primary"
                 type="submit"

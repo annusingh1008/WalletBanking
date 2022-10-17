@@ -1,15 +1,41 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import WalletRecharge from "../index";
 import { Provider } from "react-redux";
 import store from "../../../store/index";
 import { BrowserRouter as Router } from "react-router-dom";
+import { recharge } from "../../../actions/recharge.actions";
+import { Form } from "react-bootstrap";
+import { getBalance } from "../../../reducers/balance.reducer";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
+}));
+
+jest.mock("../../../actions/recharge.actions", () => ({
+  recharge: jest.fn(() => ({ type: "recharge" })),
+}));
+
+jest.mock("../../../reducers/balance.reducer", () => ({
+  getBalance: jest.fn(() => ({ amount: 1000 })),
+}));
+
+jest.mock("../../Layout", () =>
+  jest.fn(({ children }) => <div data-testid="layout">{children}</div>)
+);
+
+jest.mock("react-bootstrap", () => ({
+  Row: jest.fn(({ children }) => <div data-testid="row">{children}</div>),
+  Col: jest.fn(({ children }) => <div data-testid="col">{children}</div>),
+  Container: jest.fn(({ children }) => (
+    <div data-tesid="container">{children}</div>
+  )),
+  Button: jest.fn(({ children }) => (
+    <div data-testid="transferAmountButton">{children}</div>
+  )),
+  Form: jest.fn(({ children }) => <div data-testid="form">{children}</div>),
 }));
 
 const localStorageData = {
@@ -107,17 +133,46 @@ describe("WalletRecharge", () => {
     expect(textAreaElement1.value).toBe("1000");
   });
 
-  it("Form can be submitted", () => {
-    const mockSubmit = jest.fn();
-    const { queryByTestId } = render(
-      <Provider store={store}>
-        <Router>
-          <WalletRecharge />
-        </Router>
-      </Provider>
-    );
-    fireEvent.submit(queryByTestId("button"));
-    fireEvent.submit(queryByTestId("form"));
-    expect(mockDispatch).toHaveBeenCalled();
+  describe("when user puts 0 amount", () => {
+    it("Shows error message", () => {
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <Router>
+            <WalletRecharge />
+          </Router>
+        </Provider>
+      );
+      act(() => {
+        const amountElement = screen.queryByTestId("amountInputBox");
+        fireEvent.change(amountElement, { target: { value: 0 } });
+        const { onSubmit } = Form.mock.calls[1][0];
+        onSubmit({ preventDefault: jest.fn() });
+      });
+      expect(queryByTestId("error-msg")).toBeVisible();
+    });
+  });
+
+  describe("when user puts valid amount", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <Router>
+            <WalletRecharge />
+          </Router>
+        </Provider>
+      );
+      act(() => {
+        const amountElement = screen.queryByTestId("amountInputBox");
+        fireEvent.change(amountElement, { target: { value: 500 } });
+        const { onSubmit } = Form.mock.calls[1][0];
+        onSubmit({ preventDefault: jest.fn() });
+      });
+      expect(mockDispatch).toBeCalledWith(recharge());
+      expect(recharge).toBeCalledWith({
+        email: "annu",
+        amount: "500",
+        currentAmount: 1000,
+      });
+    });
   });
 });

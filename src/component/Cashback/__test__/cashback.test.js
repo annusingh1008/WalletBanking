@@ -1,11 +1,8 @@
 import React from "react";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import Cashback from "../index";
-import { Provider } from "react-redux";
-import store from "../../../store/index";
-import { BrowserRouter as Router } from "react-router-dom";
-import { getCashbacks } from "../../../actions/cashback.actions";
-import { Button } from "react-bootstrap";
+import { getAllCashBacks } from "../../../actions/cashback.actions";
+import { localStorageMock, renderWithRedux } from "../../../helper/testHelper";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -13,83 +10,117 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
+jest.mock("../../Layout", () =>
+  jest.fn(({ children }) => <div data-testid="Layout">{children}</div>)
+);
+
+jest.mock("react-bootstrap", () => {
+  const Table = jest.fn(({ children }) => (
+    <table data-testid="Table">{children}</table>
+  ));
+  const Card = jest.fn(({ children }) => (
+    <div data-testid="Card">{children}</div>
+  ));
+  Card.Footer = jest.fn(({ children }) => (
+    <div data-testid="Footer">{children}</div>
+  ));
+  const InputGroup = jest.fn(({ children }) => (
+    <div data-tesid="InputGroup">{children}</div>
+  ));
+  const Button = jest.fn((props) => (
+    <button
+      onClick={props.onClick}
+      data-testid={`Button-${props["data-testid"]}`}
+    >
+      {props.children}
+    </button>
+  ));
+
+  return { Table, Card, InputGroup, Button };
+});
+
 jest.mock("../../../actions/cashback.actions", () => ({
-  ...jest.requireActual("../../../actions/cashback.actions"),
-  getCashbacks: jest.fn(() => ({ cashbackList: [], totalPages: 1 })),
+  getCashbacks: jest.fn(() => ({
+    cashbackList: [
+      {
+        email: "abc@gmail.com",
+        prev_amount: 15000,
+        cashback_amount: 1000,
+        current_amount: 16000,
+        date: "2022-10-07T09:47:02.906+00:00",
+      },
+      {
+        email: "abc2@gmail.com",
+        prev_amount: 15000,
+        cashback_amount: 1000,
+        current_amount: 16000,
+        date: "2022-10-07T09:47:02.906+00:00",
+      },
+      {
+        email: "abc3@gmail.com",
+        prev_amount: 15000,
+        cashback_amount: 1000,
+        current_amount: 16000,
+        date: "2022-10-07T09:47:02.906+00:00",
+      },
+    ],
+    totalPages: 10,
+  })),
+  getTotalCashbacks: jest.fn((payload) => ({
+    type: "getTotalCashbacks",
+    payload,
+  })),
+  getAllCashBacks: jest.fn((payload) => ({
+    type: "getAllCashBacks",
+    payload,
+  })),
 }));
 
 describe("Cashback", () => {
-  //   it("should render all buttons", () => {
-  //     const { queryByTestId } = render(
-  //       <Provider store={store}>
-  //         <Router>
-  //           <Cashback />
-  //         </Router>
-  //       </Provider>
-  //     );
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-  //     const button1 = queryByTestId("first");
-  //     const button2 = queryByTestId("prev");
-  //     const button3 = queryByTestId("next");
-  //     const button4 = queryByTestId("last");
-  //     expect(button1).toBeInTheDocument();
-  //     expect(button2).toBeInTheDocument();
-  //     expect(button3).toBeInTheDocument();
-  //     expect(button4).toBeInTheDocument();
-  //   });
+  Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
   it("renders properly", () => {
-    const { container } = render(
-      <Provider store={store}>
-        <Router>
-          <Cashback />
-        </Router>
-      </Provider>
-    );
+    const { container } = renderWithRedux(<Cashback />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  // it("first button is clicked", () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <Router>
-  //         <Cashback />
-  //       </Router>
-  //     </Provider>
-  //   );
-  //   const { onClick } = Button.mock.calls[1][0];
-  //   console.log(onClick);
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Cashback />);
+      const node = queryByTestId("Button-first");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllCashBacks(0, "annu"));
+    });
+  });
 
-  //   // const firstButton = queryByTestId("first");
-  //   // console.log(firstButton);
-  //   // // const firstButton = queryByText("first");
-  //   // fireEvent.click(firstButton);
-  //   expect(mockDispatch).toHaveBeenCalled();
-  // });
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Cashback />);
+      const node = queryByTestId("Button-prev");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllCashBacks(0, "annu"));
+    });
+  });
 
-  it("renders properly when length of cashback is divisible by 10 ", () => {
-    getCashbacks.mockImplementationOnce(() => ({
-      cashbackList: [
-        { _id: 1 },
-        { _id: 2 },
-        { _id: 3 },
-        { _id: 4 },
-        { _id: 5 },
-        { _id: 6 },
-        { _id: 7 },
-        { _id: 8 },
-        { _id: 9 },
-        { _id: 10 },
-      ],
-      totalPages: 10,
-    }));
-    const { container } = render(
-      <Provider store={store}>
-        <Router>
-          <Cashback />
-        </Router>
-      </Provider>
-    );
-    expect(container.firstChild).toMatchSnapshot();
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Cashback />);
+      const node = queryByTestId("Button-next");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllCashBacks(0, "annu"));
+    });
+  });
+
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Cashback />);
+      const node = queryByTestId("Button-last");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllCashBacks(0, "annu"));
+    });
   });
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../actions/user.actions";
+import { getUser, signup } from "../../actions/user.actions";
 import Layout from "../Layout";
 import "./style.css";
 
@@ -14,15 +14,26 @@ const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState("");
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector(getUser);
+
+  // useEffect(() => {
+  //   setFirstName("");
+  //   setLastName("");
+  //   setEmail("");
+  //   setPassword("");
+  //   setConfirmPassword("");
+  //   setMobileNumber("");
+  // }, [user.loading]);
 
   useEffect(() => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setMobileNumber("");
+    return () => {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setMobileNumber("");
+    };
   }, [user.loading]);
 
   const userSignup = (e) => {
@@ -48,10 +59,11 @@ const Signup = () => {
       <Container style={{ marginTop: "110px" }}>
         <Row style={{ marginLeft: "18%" }}>
           <Col>
-            <Form data-testid="form" onSubmit={userSignup}>
+            <Form data-testid="submit-form" onSubmit={userSignup}>
               <label>First Name</label>
               <br />
               <input
+                data-testid="inputFirstName"
                 className="input"
                 placeholder="First Name"
                 type="text"
@@ -63,6 +75,7 @@ const Signup = () => {
               <label className="label">Last Name</label>
               <br />
               <input
+                data-testid="inputLastName"
                 className="input"
                 placeholder="Last Name"
                 type="text"
@@ -74,6 +87,7 @@ const Signup = () => {
               <label className="label">Email</label>
               <br />
               <input
+                data-testid="inputEmail"
                 className="input"
                 placeholder="Email"
                 value={email}
@@ -85,7 +99,7 @@ const Signup = () => {
               <label className="label">Password</label>
               <br />
               <input
-                data-testid="password"
+                data-testid="inputPassword"
                 className="input"
                 placeholder="Password"
                 value={password}
@@ -98,6 +112,7 @@ const Signup = () => {
               <label className="label">Confirm Password</label>
               <br />
               <input
+                data-testid="inputConfirmPassword"
                 className="input"
                 placeholder="Confirm Password"
                 value={confirmPassword}
@@ -110,17 +125,23 @@ const Signup = () => {
               <label className="label">Mobile Number</label>
               <br />
               <input
+                data-testid="inputMobileNumber"
                 className="input"
                 placeholder="Mobile Number"
                 value={mobileNumber}
                 minLength="10"
-                maxlength="10"
+                maxLength="10"
                 type="text"
                 onChange={(e) => setMobileNumber(e.target.value)}
                 required
-              />{" "}
+              />
               <br />
-              <Button className="btn" variant="primary" type="submit">
+              <Button
+                data-testid="submit-btn"
+                className="btn"
+                variant="primary"
+                type="submit"
+              >
                 Submit
               </Button>
             </Form>

@@ -14,7 +14,7 @@ const AmountTransfer = () => {
   const dispatch = useDispatch();
   const balance = useSelector(getBalance);
   const userEmail = localStorage.getItem("email");
-  console.log("balance", balance);
+
   const confirmAmountTransfer = (e) => {
     e.preventDefault();
     if (amount <= 0) {
@@ -70,7 +70,11 @@ const AmountTransfer = () => {
                 required
               ></input>
               <br />
-              {amountErr && <p className="text-danger">{amountErr}</p>}
+              {amountErr && (
+                <p data-testid="error-msg" className="text-danger">
+                  {amountErr}
+                </p>
+              )}
               {isAmountSufficient && (
                 <p data-testid="insufficient-amount" className="text-danger">
                   Insufficient Amount

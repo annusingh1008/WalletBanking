@@ -1,115 +1,116 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Cashback renders properly 1`] = `
-<nav
-  class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-  style="z-index: 2;"
+<div
+  data-testid="Layout"
 >
-  <div
-    class="container-fluid"
+  <table
+    data-testid="Table"
   >
-    <a
-      class="navbar-brand"
-      href="/"
+    <thead
+      class="text-center"
     >
-      Wallet Banking
-    </a>
-  </div>
-  <button
-    aria-controls="responsive-navbar-nav"
-    aria-label="Toggle navigation"
-    class="navbar-toggler collapsed"
-    type="button"
-  >
-    <span
-      class="navbar-toggler-icon"
-    />
-  </button>
+      <tr>
+        <th>
+          #
+        </th>
+        <th>
+          Cashback Earned
+        </th>
+        <th>
+          Current Amount
+        </th>
+        <th>
+          Date
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="text-center"
+    >
+      <tr>
+        <td>
+          1
+        </td>
+        <td>
+          1000
+        </td>
+        <td>
+          16000
+        </td>
+        <td>
+          07/10/2022, 20:47:02
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2
+        </td>
+        <td>
+          1000
+        </td>
+        <td>
+          16000
+        </td>
+        <td>
+          07/10/2022, 20:47:02
+        </td>
+      </tr>
+      <tr>
+        <td>
+          3
+        </td>
+        <td>
+          1000
+        </td>
+        <td>
+          16000
+        </td>
+        <td>
+          07/10/2022, 20:47:02
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <div
-    class="navbar-collapse collapse"
-    id="responsive-navbar-nav"
+    data-testid="Footer"
   >
     <div
-      class="navbar-nav"
+      style="margin-left: 450px;"
     >
-      <li
-        class="nav-item"
-      >
-        <a
-          class="nav-link"
-          href="/signin"
-        >
-          Signin
-        </a>
-      </li>
-      <li
-        class="nav-item"
-      >
-        <a
-          class="nav-link"
-          href="/signup"
-        >
-          Signup
-        </a>
-      </li>
+      Showing Page 
+      1
+       of 
+      1
     </div>
-  </div>
-</nav>
-`;
-
-exports[`Cashback renders properly when length of cashback is divisible by 10  1`] = `
-<nav
-  class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-  style="z-index: 2;"
->
-  <div
-    class="container-fluid"
-  >
-    <a
-      class="navbar-brand"
-      href="/"
-    >
-      Wallet Banking
-    </a>
-  </div>
-  <button
-    aria-controls="responsive-navbar-nav"
-    aria-label="Toggle navigation"
-    class="navbar-toggler collapsed"
-    type="button"
-  >
-    <span
-      class="navbar-toggler-icon"
-    />
-  </button>
-  <div
-    class="navbar-collapse collapse"
-    id="responsive-navbar-nav"
-  >
     <div
-      class="navbar-nav"
+      style="margin-left: 430px;"
     >
-      <li
-        class="nav-item"
+      <div
+        data-tesid="InputGroup"
       >
-        <a
-          class="nav-link"
-          href="/signin"
+        <button
+          data-testid="Button-first"
         >
-          Signin
-        </a>
-      </li>
-      <li
-        class="nav-item"
-      >
-        <a
-          class="nav-link"
-          href="/signup"
+          First
+        </button>
+        <button
+          data-testid="Button-prev"
         >
-          Signup
-        </a>
-      </li>
+          Prev
+        </button>
+        <button
+          data-testid="Button-next"
+        >
+          Next
+        </button>
+        <button
+          data-testid="Button-last"
+        >
+          Last
+        </button>
+      </div>
     </div>
   </div>
-</nav>
+</div>
 `;

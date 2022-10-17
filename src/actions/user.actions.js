@@ -22,3 +22,5 @@ export const signup = (user) => {
     }
   };
 };
+
+export const getUser = (state) => state.user;

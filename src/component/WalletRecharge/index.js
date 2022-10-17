@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { recharge } from "../../actions/recharge.actions";
+import { getBalance } from "../../reducers/balance.reducer";
 import Layout from "../Layout";
 import "./style.css";
 
@@ -10,7 +11,8 @@ const WalletRecharge = () => {
   const [amountErr, setAmountErr] = useState("");
 
   const dispatch = useDispatch();
-  const balance = useSelector((state) => state.balance);
+  // const balance = useSelector((state) => state.balance);
+  const balance = useSelector(getBalance);
 
   const userEmail = localStorage.getItem("email");
 
@@ -43,7 +45,8 @@ const WalletRecharge = () => {
               <label>Amount</label>
               <br />
               <input
-                type="text"
+                data-testid="amountInputBox"
+                type="number"
                 placeholder="1000"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
@@ -51,7 +54,9 @@ const WalletRecharge = () => {
               ></input>
               <br />
               {amountErr && (
-                <p className="text-danger">Please enter a valid amount</p>
+                <p data-testid="error-msg" className="text-danger">
+                  Please enter a valid amount
+                </p>
               )}
               <Button data-testid="button" type="submit">
                 Recharge

@@ -19,10 +19,10 @@ const Transactions = () => {
 
   // const transactions = useSelector((state) => state.transactions);
   const transactions = useSelector(getTransactions);
-  const transactionList = transactions.transactions;
+  const transactionList = transactions?.transactions;
   const email = localStorage.getItem("email");
 
-  const length = transactions.totalPages;
+  const length = transactions?.totalPages;
   const totalPages = length % 10 == 0 ? length / 10 : parseInt(length / 10) + 1;
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -47,9 +47,22 @@ const Transactions = () => {
     dispatch(getAllTransactions(currentPage + 1, email));
   };
 
+  const convertUTCDateToLocalDate = (date) => {
+    var newDate = new Date(
+      date.getTime() + date.getTimezoneOffset() * 60 * 1000
+    );
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;
+  };
+
   return (
     <Layout sidebar>
-      {transactionList.length !== 0 ? (
+      {transactionList?.length > 0 ? (
         <>
           <Table striped bordered hover className="table">
             <thead className="text-center">
@@ -60,7 +73,7 @@ const Transactions = () => {
                 <th scope="col">Credit/ Debit</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Current Amount</th>
-                <th scope="col">Timestamp</th>
+                <th scope="col">Transaction Date</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -72,7 +85,11 @@ const Transactions = () => {
                   <td>{transaction.type}</td>
                   <td>{transaction.transferAmount}</td>
                   <td>{transaction.amount}</td>
-                  <td>{transaction.date}</td>
+                  <td>
+                    {convertUTCDateToLocalDate(
+                      new Date(transaction.date)
+                    ).toLocaleString()}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -84,6 +101,7 @@ const Transactions = () => {
             <div style={{ marginLeft: "430px" }}>
               <InputGroup size="sm">
                 <Button
+                  data-testid="first"
                   type="button"
                   className="button"
                   variant="outline-dark"
@@ -93,6 +111,7 @@ const Transactions = () => {
                   First
                 </Button>
                 <Button
+                  data-testid="prev"
                   type="button"
                   className="button"
                   variant="outline-dark"
@@ -102,6 +121,7 @@ const Transactions = () => {
                   Prev
                 </Button>
                 <Button
+                  data-testid="next"
                   type="button"
                   className="button"
                   variant="outline-dark"
@@ -111,6 +131,7 @@ const Transactions = () => {
                   Next
                 </Button>
                 <Button
+                  data-testid="last"
                   type="button"
                   className="button"
                   variant="outline-dark"

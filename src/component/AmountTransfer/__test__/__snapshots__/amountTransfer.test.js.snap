@@ -1,5 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AmountTransfer renders properly 1`] = `
+<div
+  data-testid="layout"
+>
+  <div
+    data-tesid="container"
+  >
+    <div
+      data-testid="row"
+    >
+      <div
+        data-testid="col"
+      >
+        <div
+          class="heading"
+        >
+          Transfer Amount
+        </div>
+        <div
+          data-testid="form"
+        >
+          <label>
+            Email
+          </label>
+          <br />
+          <input
+            data-testid="emailInputBox"
+            placeholder="Email"
+            required=""
+            type="email"
+            value=""
+          />
+          <br />
+          <label>
+            Amount
+          </label>
+          <br />
+          <input
+            data-testid="amountInputBox"
+            placeholder="1000"
+            required=""
+            type="text"
+            value=""
+          />
+          <br />
+          <div
+            data-testid="transferAmountButton"
+          >
+            Transfer Amount
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`AmountTransfer when user puts insufficient amount Shows insufficient amount 1`] = `
 <div
   data-testid="layout"
@@ -8,10 +65,10 @@ exports[`AmountTransfer when user puts insufficient amount Shows insufficient am
     data-tesid="container"
   >
     <div
-      data-tesid="row"
+      data-testid="row"
     >
       <div
-        data-tesid="col"
+        data-testid="col"
       >
         <div
           class="heading"
@@ -19,7 +76,7 @@ exports[`AmountTransfer when user puts insufficient amount Shows insufficient am
           Transfer Amount
         </div>
         <div
-          data-tesid="form"
+          data-testid="form"
         >
           <label>
             Email
@@ -45,8 +102,14 @@ exports[`AmountTransfer when user puts insufficient amount Shows insufficient am
             value="20000"
           />
           <br />
+          <p
+            class="text-danger"
+            data-testid="insufficient-amount"
+          >
+            Insufficient Amount
+          </p>
           <div
-            data-tesid="button"
+            data-testid="transferAmountButton"
           >
             Transfer Amount
           </div>

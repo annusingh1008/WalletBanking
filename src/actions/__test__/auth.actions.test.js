@@ -1,6 +1,6 @@
 import thunk from "redux-thunk";
 import axios from "axios";
-import { login, signout } from "../auth.actions";
+import { getAuthDetails, login, signout } from "../auth.actions";
 import configureMockStore from "redux-mock-store";
 
 const middlewares = [thunk];
@@ -92,6 +92,26 @@ describe("auth actions", () => {
         const store = mockStore({});
         await store.dispatch(signout());
       });
+    });
+  });
+
+  describe("#getAuthDetails", () => {
+    it("returns auth Details", () => {
+      const state = {
+        user: {
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          amount: "",
+        },
+        authenticate: true,
+        loading: false,
+        error: null,
+      };
+
+      const result = getAuthDetails(state);
+      expect(result).toStrictEqual(state.auth);
     });
   });
 });

@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCashBacks,
   getTotalCashbacks,
-  getCashbacks,
 } from "../../actions/cashback.actions";
 import "./style.css";
+import { getCashbacks } from "../../actions/cashback.actions";
 
 const Cashback = () => {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const Cashback = () => {
   // const cashbacks = useSelector((state) => state.cashbacks);
   const cashbackList = cashbacks?.cashbackList;
   const email = localStorage.getItem("email");
+  console.log(cashbackList);
 
   const length = cashbacks?.totalPages;
   const totalPages = length % 10 == 0 ? length / 10 : parseInt(length / 10) + 1;
@@ -47,9 +48,22 @@ const Cashback = () => {
     dispatch(getAllCashBacks(currentPage + 1), email);
   };
 
+  const convertUTCDateToLocalDate = (date) => {
+    var newDate = new Date(
+      date.getTime() + date.getTimezoneOffset() * 60 * 1000
+    );
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;
+  };
+
   return (
     <Layout sidebar>
-      {cashbackList?.length > 1 ? (
+      {cashbackList?.length > 0 ? (
         <>
           <Table striped bordered hover className="cashback-table">
             <thead className="text-center">
@@ -57,7 +71,7 @@ const Cashback = () => {
                 <th>#</th>
                 <th>Cashback Earned</th>
                 <th>Current Amount</th>
-                <th>Timestamp</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -66,7 +80,11 @@ const Cashback = () => {
                   <td>{index + 1}</td>
                   <td>{cashback.cashback_amount}</td>
                   <td>{cashback.current_amount}</td>
-                  <td>{cashback.date}</td>
+                  <td>
+                    {convertUTCDateToLocalDate(
+                      new Date(cashback.date)
+                    ).toLocaleString()}
+                  </td>
                 </tr>
               ))}
             </tbody>

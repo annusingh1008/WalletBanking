@@ -1,10 +1,8 @@
 import React from "react";
-import { getAllByRole, getByText, render } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import Transactions from "../index";
-import { Provider } from "react-redux";
-import store from "../../../store/index";
-import { BrowserRouter as Router } from "react-router-dom";
-import { getTransactions } from "../../../actions/transactions.actions";
+import { localStorageMock, renderWithRedux } from "../../../helper/testHelper";
+import { getAllTransactions } from "../../../actions/transactions.actions";
 
 const mockDispatch = jest.fn();
 jest.mock("react-redux", () => ({
@@ -12,58 +10,123 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }));
 
+jest.mock("../../Layout", () =>
+  jest.fn(({ children }) => <div data-testid="Layout">{children}</div>)
+);
+
+jest.mock("react-bootstrap", () => {
+  const Table = jest.fn(({ children }) => (
+    <table data-testid="Table">{children}</table>
+  ));
+  const Card = jest.fn(({ children }) => (
+    <div data-testid="Card">{children}</div>
+  ));
+  Card.Footer = jest.fn(({ children }) => (
+    <div data-testid="Footer">{children}</div>
+  ));
+  const InputGroup = jest.fn(({ children }) => (
+    <div data-tesid="InputGroup">{children}</div>
+  ));
+  const Button = jest.fn((props) => (
+    <button
+      onClick={props.onClick}
+      data-testid={`Button-${props["data-testid"]}`}
+    >
+      {props.children}
+    </button>
+  ));
+
+  return { Table, Card, InputGroup, Button };
+});
+
 jest.mock("../../../actions/transactions.actions", () => ({
-  ...jest.requireActual("../../../actions/transactions.actions"),
-  getTransactions: jest.fn(() => ({ totalPages: 1, transactions: [] })),
+  getTransactions: jest.fn(() => ({
+    transactions: [
+      {
+        email: "abc@gmail.com",
+        amount: "1000",
+        type: "Credit",
+        transferAmount: "1000",
+        from_name: "Bank",
+        to_name: "Annu Singh",
+        date: "2022-10-04T05:50:10.283+00:00",
+      },
+      {
+        email: "abc1@gmail.com",
+        amount: "1000",
+        type: "Credit",
+        transferAmount: "1000",
+        from_name: "Bank",
+        to_name: "Annu Singh",
+        date: "2022-10-04T05:50:10.283+00:00",
+      },
+      {
+        email: "abc2@gmail.com",
+        amount: "1000",
+        type: "Credit",
+        transferAmount: "1000",
+        from_name: "Bank",
+        to_name: "Annu Singh",
+        date: "2022-10-04T05:50:10.283+00:00",
+      },
+    ],
+    totalPages: 10,
+  })),
+  getTotalTransactions: jest.fn((payload) => ({
+    type: "getTotalTransactions",
+    payload,
+  })),
+  getAllTransactions: jest.fn((payload) => ({
+    type: "getAllTransactions",
+    payload,
+  })),
 }));
 
 describe("Transactions", () => {
-  it("should render all buttons", () => {
-    render(
-      <Provider store={store}>
-        <Router>
-          <Transactions />
-        </Router>
-      </Provider>
-    );
-
-    // const button = findAllByRole("Button");
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
+
+  Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
   it("renders properly", () => {
-    const { container } = render(
-      <Provider store={store}>
-        <Router>
-          <Transactions />
-        </Router>
-      </Provider>
-    );
+    const { container } = renderWithRedux(<Transactions />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it("renders properly when length of transactions is divisible by 10 ", () => {
-    getTransactions.mockImplementationOnce(() => ({
-      totalPages: 10,
-      transactions: [
-        { _id: 1 },
-        { _id: 2 },
-        { _id: 3 },
-        { _id: 4 },
-        { _id: 5 },
-        { _id: 6 },
-        { _id: 7 },
-        { _id: 8 },
-        { _id: 9 },
-        { _id: 10 },
-      ],
-    }));
-    const { container } = render(
-      <Provider store={store}>
-        <Router>
-          <Transactions />
-        </Router>
-      </Provider>
-    );
-    expect(container.firstChild).toMatchSnapshot();
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Transactions />);
+      const node = queryByTestId("Button-first");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllTransactions(0, "annu"));
+    });
+  });
+
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Transactions />);
+      const node = queryByTestId("Button-prev");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllTransactions(0, "annu"));
+    });
+  });
+
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Transactions />);
+      const node = queryByTestId("Button-next");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllTransactions(0, "annu"));
+    });
+  });
+
+  describe("When clicks on first button", () => {
+    it("dispatches proper action", () => {
+      const { queryByTestId } = renderWithRedux(<Transactions />);
+      const node = queryByTestId("Button-last");
+      fireEvent.click(node);
+      expect(mockDispatch).toBeCalledWith(getAllTransactions(0, "annu"));
+    });
   });
 });

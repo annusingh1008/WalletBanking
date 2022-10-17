@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Signin authenticate is true  1`] = `null`;
+
 exports[`Signin renders properly 1`] = `
 <nav
   class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"

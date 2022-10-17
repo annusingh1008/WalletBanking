@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Modal, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { signout } from "../../actions/auth.actions";
-import { Modal, Button } from "react-bootstrap";
+import { getUserEmail } from "../../helper/localStorageHelper";
 
-const Header = (props) => {
+const Header = () => {
   const dispatch = useDispatch();
   const [confirmModal, setConfirmModal] = useState(false);
 
   const logout = () => {
     dispatch(signout());
-    localStorage.clear();
   };
 
   const confirmSignout = (e) => {
@@ -19,7 +18,7 @@ const Header = (props) => {
     setConfirmModal(true);
   };
 
-  const isUserLoggedIn = localStorage.getItem("email") !== null ? true : false;
+  const isUserLoggedIn = getUserEmail("email") !== null ? true : false;
 
   return (
     <Navbar
@@ -54,7 +53,7 @@ const Header = (props) => {
           <Nav>
             <li className="nav-item">
               <span
-                data-tesid="signout"
+                data-tesid="signout-btn"
                 className="nav-link"
                 onClick={confirmSignout}
               >
@@ -66,25 +65,31 @@ const Header = (props) => {
 
         {confirmModal && (
           <Modal
+            data-testid="confirm-modal"
             show={confirmModal}
-            onHide={() => {
-              setConfirmModal(false);
-            }}
+            // onHide={() => {
+            //   setConfirmModal(false);
+            // }}
             backdrop="static"
             keyboard={false}
           >
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title>Confirm</Modal.Title>
             </Modal.Header>
             <Modal.Body>Are you sure, you want to Signout</Modal.Body>
             <Modal.Footer>
               <Button
+                data-testid="set-modal"
                 variant="secondary"
                 onClick={() => setConfirmModal(false)}
               >
                 Close
               </Button>
-              <Button variant="primary" onClick={logout}>
+              <Button
+                data-testid="confirm-signout-btn"
+                variant="primary"
+                onClick={logout}
+              >
                 Confirm
               </Button>
             </Modal.Footer>
